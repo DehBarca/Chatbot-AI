@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -13,23 +14,34 @@ genai.configure(api_key=API_KEY)
 
 app = Flask(__name__)
 
-model = genai.GenerativeModel('gemini-2.0-flash-lite')
+with open('modelos/gemini_models.json', 'r') as file:
+    models = json.load(file)
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/modelos/", methods=["GET"])
+def get_modelos():
+    return jsonify(models)
 
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
         data = request.get_json()
         message = data.get("message", "").strip()
+        model_id = data.get("model", "gemini-2.0-flash-lite") 
+
+        # print("model_id:", model_id)
 
         if not message:
             return jsonify({"error": "Empty message"}), 400
 
+        model = genai.GenerativeModel(model_id)
         response = model.generate_content(message)
         reply = response.text
+
+        # print("response:", response)
 
         return jsonify({"response": reply})
 
