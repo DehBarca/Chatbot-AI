@@ -32,7 +32,7 @@ def chat():
         message = data.get("message", "").strip()
         model_id = data.get("model", "gemini-2.0-flash-lite") 
 
-        # print("model_id:", model_id)
+        print("model_id:", model_id)
 
         if not message:
             return jsonify({"error": "Empty message"}), 400
