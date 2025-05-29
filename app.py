@@ -3,19 +3,29 @@ import json
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 import google.generativeai as genai
+from openai import OpenAI
 
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
+DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
 
 if not API_KEY:
     raise ValueError("GEMINI_API_KEY not found in .env file.")
+if not DEEPSEEK_KEY:
+    raise ValueError("DEEPSEEK_API_KEY not found in .env file.")
+
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key= DEEPSEEK_KEY,
+)
 
 genai.configure(api_key=API_KEY)
 
 app = Flask(__name__)
 
-with open('modelos/gemini_models.json', 'r') as file:
-    models = json.load(file)
+with open('models/genText.json', 'r') as genTextFile:
+    models = json.load(genTextFile)
+
 
 @app.route("/")
 def index():
@@ -30,16 +40,43 @@ def chat():
     try:
         data = request.get_json()
         message = data.get("message", "").strip()
-        model_id = data.get("model", "gemini-2.0-flash-lite") 
+        model_id = data.get("model", "gemini-2.0-flash") 
+        provider = data.get("provider", "gemini").strip().lower()
 
         print("model_id:", model_id)
+        print("provider:", provider)
 
         if not message:
             return jsonify({"error": "Empty message"}), 400
+        
+        if not provider:
+            return jsonify({"error": "El proveedor no es válido"}), 400
 
-        model = genai.GenerativeModel(model_id)
-        response = model.generate_content(message)
-        reply = response.text
+        # Verificar si el modelo pertenece a DeepSeek o Gemini
+        if provider == "openrouter":
+            # Proceso para modelos de DeepSeek
+            print("Using DeepSeek model")
+            completion = client.chat.completions.create(
+            model= model_id,
+            messages=[
+                    {
+                "role": "user",
+                "content": message
+                    }
+                ]
+            )
+            response = {"text": completion.choices[0].message.content}
+            reply = response["text"]
+            
+        elif provider == "gemini":
+            # Proceso para modelos de Gemini
+            print("Using Gemini model")
+            model = genai.GenerativeModel(model_id)
+            response = model.generate_content(message)
+            reply = response.text
+            
+        else:
+            return jsonify({"error": "Model not found"}), 404
 
         # print("response:", response)
 
