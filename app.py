@@ -43,9 +43,6 @@ def chat():
         model_id = data.get("model", "gemini-2.0-flash") 
         provider = data.get("provider", "gemini").strip().lower()
 
-        print("model_id:", model_id)
-        print("provider:", provider)
-
         if not message:
             return jsonify({"error": "Empty message"}), 400
         
@@ -55,7 +52,6 @@ def chat():
         # Verificar si el modelo pertenece a DeepSeek o Gemini
         if provider == "openrouter":
             # Proceso para modelos de DeepSeek
-            print("Using DeepSeek model")
             completion = client.chat.completions.create(
             model= model_id,
             messages=[
@@ -65,22 +61,17 @@ def chat():
                     }
                 ]
             )
-            #  TODO: en la respuesta viene el modelo utilizado?
             response = {"text": completion.choices[0].message.content}
             reply = response["text"]
             
         elif provider == "gemini":
             # Proceso para modelos de Gemini
-            print("Using Gemini model")
             model = genai.GenerativeModel(model_id)
             response = model.generate_content(message)
-            #  TODO: en la respuesta viene el modelo utilizado?
             reply = response.text
             
         else:
             return jsonify({"error": "Model not found"}), 404
-
-        #  TODO: regresar el mensaje de respuesta y el modelo utilizado 
 
         return jsonify({"response": reply})
 
