@@ -65,6 +65,7 @@ def chat():
                     }
                 ]
             )
+            #  TODO: en la respuesta viene el modelo utilizado?
             response = {"text": completion.choices[0].message.content}
             reply = response["text"]
             
@@ -73,12 +74,13 @@ def chat():
             print("Using Gemini model")
             model = genai.GenerativeModel(model_id)
             response = model.generate_content(message)
+            #  TODO: en la respuesta viene el modelo utilizado?
             reply = response.text
             
         else:
             return jsonify({"error": "Model not found"}), 404
 
-        # print("response:", response)
+        #  TODO: regresar el mensaje de respuesta y el modelo utilizado 
 
         return jsonify({"response": reply})
 

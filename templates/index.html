@@ -47,9 +47,12 @@
 
             Object.keys(groupedModels).forEach((provider) => {
               const group = document.createElement("optgroup");
+              //TODO: ESTO ES CODIGO REDUNDANTE
+              console.log("provider: ", provider.slice(1));
               group.label = `${
                 provider.charAt(0).toUpperCase() + provider.slice(1)
               } Models`;
+
               groupedModels[provider].forEach((model) => {
                 const option = document.createElement("option");
                 option.value = model.id;
@@ -98,6 +101,8 @@
 
           const data = await res.json();
           loadingDiv.remove();
+          
+          // TODO: mostrar el modelo regresado por la llamada API
           addMessage("Bot", data.response, "bot");
         } catch (err) {
           loadingDiv.remove();
