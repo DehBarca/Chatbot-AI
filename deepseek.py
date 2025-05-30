@@ -14,17 +14,13 @@ client = OpenAI(
 )
 
 completion = client.chat.completions.create(
-  extra_headers={
-    "HTTP-Referer": "<YOUR_SITE_URL>", 
-    "X-Title": "<YOUR_SITE_NAME>", 
-  },
-  extra_body={},
-  model="deepseek/deepseek-prover-v2:free",
-  messages=[
-    {
-      "role": "user",
-      "content": "What is the meaning of life?"
-    }
-  ]
-)
-print(completion.choices[0].message.content)
+            model="deepseek/deepseek-prover-v2:free",
+            messages=[
+                    {
+                "role": "user",
+                "content": "What is the meaning of life?"
+                    }
+                ]
+            )
+response = {"text": completion.choices[0].message.content}
+print(response["text"])

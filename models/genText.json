@@ -1,0 +1,21 @@
+[
+    {"id": "deepseek/deepseek-chat-v3-0324:free", "nombre": "DeepSeek V3 0324", "provider": "OpenRouter"},
+    {"id": "tngtech/deepseek-r1t-chimera:free", "nombre": "DeepSeek R1T Chimera", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-prover-v2:free", "nombre": "DeepSeek Prover V2", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-r1:free", "nombre": "DeepSeek R1", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-r1-zero:free", "nombre": "DeepSeek R1 Zero", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-r1-distill-llama-70b:free", "nombre": "R1 Distill Llama 70B", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-r1-distill-qwen-32b:free", "nombre": "Distill Qwen 32B", "provider": "OpenRouter"},
+    {"id": "deepseek/deepseek-r1-distill-qwen-14b:free", "nombre": "R1 Distill Qwen 14B", "provider": "OpenRouter"},
+    {"id": "gemini-2.0-flash", "nombre": "Gemini 2.0 Flash", "provider" : "Gemini"},
+    {"id": "gemini-2.5-flash-preview-05-20", "nombre": "Gemini 2.5 Flash", "provider" : "Gemini"},
+    {"id": "gemma-3-27b-it", "nombre": "Gemma 3", "provider" : "Gemini"},
+    {"id": "gemma-3n-e4b-it", "nombre": "Gemma 3n", "provider" : "Gemini"},
+    {"id": "gemini-1.5-flash", "nombre": "Gemini 1.5 Flash", "provider" : "Gemini"},
+    {"id": "gemini-1.5-flash-8b", "nombre": "Gemini 1.5 Flash-8B", "provider" : "Gemini"},
+    {"id": "gemma-3-1b-it", "nombre": "Gemma 3 1B", "provider" : "Gemini"},
+    {"id": "gemma-3-4b-it", "nombre": "Gemma 3 4B", "provider" : "Gemini"},
+    {"id": "gemma-3-12b-it", "nombre": "Gemma 3 12B", "provider" : "Gemini"},
+    {"id": "gemma-3-27b-it", "nombre": "Gemma 3 27B", "provider" : "Gemini"},
+    {"id": "gemma-3n-e4b-it", "nombre": "Gemma 3n E4B", "provider" : "Gemini"}
+]
