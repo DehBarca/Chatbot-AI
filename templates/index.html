@@ -47,8 +47,6 @@
 
             Object.keys(groupedModels).forEach((provider) => {
               const group = document.createElement("optgroup");
-              //TODO: ESTO ES CODIGO REDUNDANTE
-              console.log("provider: ", provider.slice(1));
               group.label = `${provider} Models`;
 
               groupedModels[provider].forEach((model) => {
@@ -75,10 +73,12 @@
         input.value = "";
 
         const loadingDiv = addLoadingMessage();
-        const select = document.getElementById("modelSelect");
         const modelId = document.getElementById("modelSelect").value;
+        const select = document.getElementById("modelSelect");
+        const modelo = select.options[select.selectedIndex].textContent;
         const provider =
           select.options[select.selectedIndex].getAttribute("data-provider");
+
         if (!provider) {
           alert("Invalid provider. Please select a valid model.");
           loadingDiv.remove();
@@ -100,11 +100,10 @@
           const data = await res.json();
           loadingDiv.remove();
 
-          // TODO: mostrar el modelo regresado por la llamada API
-          addMessage("Bot", data.response, "bot");
+          addMessage(modelo, data.response, "bot");
         } catch (err) {
           loadingDiv.remove();
-          addMessage("Bot", "Oops! Something went wrong.", "bot");
+          addMessage(modelo, "Oops! Something went wrong.", "bot");
         }
       }
 
