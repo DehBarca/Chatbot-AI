@@ -1,5 +1,6 @@
 import os
 import json
+from markdown import Markdown
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -8,6 +9,8 @@ from openai import OpenAI
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
+Host = os.getenv("HOST", "0.0.0.0")
+Port = os.getenv("PORT", 10000)
 
 if not API_KEY:
     raise ValueError("GEMINI_API_KEY not found in .env file.")
@@ -72,12 +75,12 @@ def chat():
             
         else:
             return jsonify({"error": "Model not found"}), 404
-
-        return jsonify({"response": reply})
+        
+        return jsonify({"response": Markdown().convert(reply)})
 
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"response": "Sorry, something went wrong."}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host = Host, port = Port)
