@@ -38,6 +38,14 @@ def index():
 def get_modelos():
     return jsonify(models)
 
+@app.route("/archivos", methods=['POST'])
+def upload():
+    files = request.files.getlist('file')
+    for file in files:
+        if file:
+            file.save(f"./archivos/{file.filename}")
+    return jsonify({"message": "Archivo(s) subido(s) correctamente"})
+
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
