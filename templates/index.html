@@ -27,6 +27,7 @@
       <div class="chat-messages" id="messages"></div>
       <div class="chat-input">
         <select id="modelSelect" class="form-select"></select>
+        <select id="fileSelect" class="form-select"></select>
         <button
           type="button"
           class="btn btn-outline-primary upload-btn"
@@ -131,6 +132,21 @@
             select.value = "gemini-2.0-flash";
           });
 
+        // Dropdown Archivos
+        fetch("/archivos/")
+          .then((res) => res.json())
+          .then((files) => {
+            const select = document.getElementById("fileSelect");
+            select.innerHTML = "";
+            files.forEach((file) => {
+              const option = document.createElement("option");
+              option.value = file;
+              option.textContent = file;
+              select.appendChild(option);
+            });
+            select.value = "";
+          });
+
         document
           .getElementById("userInput")
           .addEventListener("keydown", function (event) {
@@ -161,6 +177,8 @@
           return;
         }
 
+        const archivo = document.getElementById("fileSelect").value;
+
         // API CALL TO BACKEND
         try {
           const res = await fetch("/chat", {
@@ -170,6 +188,7 @@
               message: text,
               model: modelId,
               provider: provider,
+              archivo: archivo,
             }),
           });
 
