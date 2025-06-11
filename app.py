@@ -29,6 +29,8 @@ app = Flask(__name__)
 with open('models/genText.json', 'r') as genTextFile:
     models = json.load(genTextFile)
 
+dirpath = "./archivos"
+files = os.listdir(dirpath)
 
 @app.route("/")
 def index():
@@ -38,6 +40,18 @@ def index():
 def get_modelos():
     return jsonify(models)
 
+@app.route("/archivos/", methods=["GET"])
+def get_archivos():
+    return jsonify(files)
+    
+@app.route("/archivos", methods=['POST'])
+def upload():
+    files = request.files.getlist('file')
+    for file in files:
+        if file:
+            file.save(f"./archivos/{file.filename}")
+    return jsonify({"message": "Archivo(s) subido(s) correctamente"})
+
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
@@ -45,7 +59,9 @@ def chat():
         message = data.get("message", "").strip()
         model_id = data.get("model", "gemini-2.0-flash") 
         provider = data.get("provider", "gemini").strip().lower()
+        archivo = data.get("archivo", "").strip().lower()
 
+        print("Archivo enviado: ", archivo)
         if not message:
             return jsonify({"error": "Empty message"}), 400
         
