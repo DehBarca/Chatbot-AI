@@ -4,23 +4,15 @@ from markdown import Markdown
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 import google.generativeai as genai
-from openai import OpenAI
+from chatbotAPIs.OpenRouter import obtenerMensaje
 
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
-DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
 Host = os.getenv("HOST", "0.0.0.0")
 Port = os.getenv("PORT", 10000)
 
 if not API_KEY:
     raise ValueError("GEMINI_API_KEY not found in .env file.")
-if not DEEPSEEK_KEY:
-    raise ValueError("DEEPSEEK_API_KEY not found in .env file.")
-
-client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key= DEEPSEEK_KEY,
-)
 
 genai.configure(api_key=API_KEY)
 
@@ -70,18 +62,7 @@ def chat():
 
         # Verificar si el modelo pertenece a DeepSeek o Gemini
         if provider == "openrouter":
-            # Proceso para modelos de DeepSeek
-            completion = client.chat.completions.create(
-            model= model_id,
-            messages=[
-                    {
-                "role": "user",
-                "content": message
-                    }
-                ]
-            )
-            response = {"text": completion.choices[0].message.content}
-            reply = response["text"]
+            reply = obtenerMensaje(model_id, message, archivo)
             
         elif provider == "gemini":
             # Proceso para modelos de Gemini
