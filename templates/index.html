@@ -136,7 +136,6 @@
         fetch("/archivos/")
           .then((res) => res.json())
           .then((files) => {
-            console.log("files: ", files);
             const select = document.getElementById("fileSelect");
             select.innerHTML = "";
             files.forEach((file) => {
