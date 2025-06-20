@@ -30,7 +30,7 @@ with open('models/genText.json', 'r') as genTextFile:
     models = json.load(genTextFile)
 
 dirpath = "./archivos"
-files = os.listdir(dirpath)
+
 
 @app.route("/")
 def index():
@@ -42,15 +42,19 @@ def get_modelos():
 
 @app.route("/archivos/", methods=["GET"])
 def get_archivos():
+    files = os.listdir(dirpath)
     return jsonify(files)
     
 @app.route("/archivos", methods=['POST'])
 def upload():
-    files = request.files.getlist('file')
-    for file in files:
+    
+    filesUploaded = request.files.getlist('file')
+    for file in filesUploaded:
         if file:
             file.save(f"./archivos/{file.filename}")
-    return jsonify({"message": "Archivo(s) subido(s) correctamente"})
+            
+    files = os.listdir(dirpath)
+    return jsonify({"message": "Archivo(s) subido(s) correctamente", "allFiles": [file for file in files]})
 
 @app.route("/chat", methods=["POST"])
 def chat():
