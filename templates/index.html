@@ -231,17 +231,42 @@
       function uploadFile() {
         const form = document.getElementById("uploadForm");
         const formData = new FormData(form);
+        const filesUploaded = document.getElementById("fileInput").files;
 
         fetch("/archivos", {
           method: "POST",
           body: formData,
         })
-          .then((res) => res.json())
+          .then((res) => {
+            if (!res.ok) throw new Error("Error en el servidor");
+            return res.json();
+          })
           .then((data) => {
             alert(data.message || "Archivo(s) subido(s) correctamente");
+
+            // Actualizar dropdown
+            const fileSelect = document.getElementById("fileSelect");
+            fileSelect.innerHTML = "";
+
+            const allFiles = data.allFiles || [];
+
+            allFiles.forEach((file) => {
+              const option = document.createElement("option");
+              option.value = file;
+              option.textContent = file;
+              fileSelect.appendChild(option);
+            });
+
+            // Seleccionar default
+            if (filesUploaded.length > 0) {
+              const lastUploaded = filesUploaded[filesUploaded.length - 1].name;
+              fileSelect.value = lastUploaded;
+            }
+
             resetUploadModal();
           })
           .catch((err) => {
+            console.error(err);
             alert("Error al subir archivo(s)");
           });
       }
