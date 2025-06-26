@@ -56,19 +56,19 @@ def chat():
         
         if not provider:
             return jsonify({"error": "El proveedor no es válido"}), 400
-
-        # Verificar si el modelo pertenece a Openrouter o Gemini
-        if provider == "openrouter":
-            # Proceso para modelos de Openrouter
-            reply = get_OpenRouter(model_id, message)
-            
-        elif provider == "gemini":
-            # Proceso para modelos de Gemini
-            reply = get_Gemini(model_id, message)
-            
-        else:
-            return jsonify({"error": "Model not found"}), 404
         
+        if not model_id:
+            return jsonify({"error": "El modelo no es válido"}), 400
+        
+        # Verificar si el modelo pertenece a Openrouter o Gemini
+        match provider:
+            case "openrouter": 
+                reply = get_OpenRouter(model_id, message) # Proceso para modelos de Openrouter
+            case "gemini":
+                reply = get_Gemini(model_id, message) # Proceso para modelos de Gemini
+            case _:
+                return jsonify({"error": "Model not found"}), 404
+                
         return jsonify({"response": Markdown().convert(reply)})
 
     except Exception as e:
