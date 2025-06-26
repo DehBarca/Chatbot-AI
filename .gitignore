@@ -1,3 +1,4 @@
 .env
 env/*
 archivos
+__pycache__
