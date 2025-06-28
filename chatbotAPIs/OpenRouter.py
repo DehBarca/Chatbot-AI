@@ -7,7 +7,7 @@ OPENROUTER_KEY= os.getenv("OPENROUTER_API_KEY")
 
 
 if not OPENROUTER_KEY:
-    raise ValueError("DEEPSEEK_API_KEY not found in .env file.")
+    raise ValueError("OPENROUTER_API_KEY not found in .env file.")
 
 
 def get_OpenRouter (model_id, message):
