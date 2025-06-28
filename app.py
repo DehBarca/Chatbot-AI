@@ -3,26 +3,13 @@ import json
 from markdown import Markdown
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
-import google.generativeai as genai
-from openai import OpenAI
+from chatbotAPIs.OpenRouter import get_OpenRouter
+from chatbotAPIs.Gemini import get_Gemini
+from chatbotAPIs.Together import get_Together
 
 load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY")
-DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
 Host = os.getenv("HOST", "0.0.0.0")
 Port = os.getenv("PORT", 10000)
-
-if not API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in .env file.")
-if not DEEPSEEK_KEY:
-    raise ValueError("DEEPSEEK_API_KEY not found in .env file.")
-
-client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key= DEEPSEEK_KEY,
-)
-
-genai.configure(api_key=API_KEY)
 
 app = Flask(__name__)
 
@@ -65,37 +52,26 @@ def chat():
         provider = data.get("provider", "gemini").strip().lower()
         archivo = data.get("archivo", "").strip().lower()
 
-        print("Archivo enviado: ", archivo)
         if not message:
             return jsonify({"error": "Empty message"}), 400
         
         if not provider:
             return jsonify({"error": "El proveedor no es válido"}), 400
-
-        # Verificar si el modelo pertenece a DeepSeek o Gemini
-        if provider == "openrouter":
-            # Proceso para modelos de DeepSeek
-            completion = client.chat.completions.create(
-            model= model_id,
-            messages=[
-                    {
-                "role": "user",
-                "content": message
-                    }
-                ]
-            )
-            response = {"text": completion.choices[0].message.content}
-            reply = response["text"]
-            
-        elif provider == "gemini":
-            # Proceso para modelos de Gemini
-            model = genai.GenerativeModel(model_id)
-            response = model.generate_content(message)
-            reply = response.text
-            
-        else:
-            return jsonify({"error": "Model not found"}), 404
         
+        if not model_id:
+            return jsonify({"error": "El modelo no es válido"}), 400
+        
+        # Verificar si el modelo pertenece a Openrouter o Gemini
+        match provider:
+            case "openrouter": 
+                reply = get_OpenRouter(model_id, message) # Proceso para modelos de Openrouter
+            case "gemini":
+                reply = get_Gemini(model_id, message) # Proceso para modelos de Gemini
+            case "together":
+                reply = get_Together(model_id, message)
+            case _:
+                return jsonify({"error": "Model not found"}), 404
+                
         return jsonify({"response": Markdown().convert(reply)})
 
     except Exception as e:
