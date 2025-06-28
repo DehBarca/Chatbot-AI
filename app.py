@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 from chatbotAPIs.OpenRouter import get_OpenRouter
 from chatbotAPIs.Gemini import get_Gemini
+from chatbotAPIs.Together import get_Together
 
 load_dotenv()
 Host = os.getenv("HOST", "0.0.0.0")
@@ -66,6 +67,8 @@ def chat():
                 reply = get_OpenRouter(model_id, message) # Proceso para modelos de Openrouter
             case "gemini":
                 reply = get_Gemini(model_id, message) # Proceso para modelos de Gemini
+            case "together":
+                reply = get_Together(model_id, message)
             case _:
                 return jsonify({"error": "Model not found"}), 404
                 

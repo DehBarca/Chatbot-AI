@@ -17,5 +17,10 @@
     {"id": "gemma-3-4b-it", "nombre": "Gemma 3 4B", "provider" : "Gemini"},
     {"id": "gemma-3-12b-it", "nombre": "Gemma 3 12B", "provider" : "Gemini"},
     {"id": "gemma-3-27b-it", "nombre": "Gemma 3 27B", "provider" : "Gemini"},
-    {"id": "gemma-3n-e4b-it", "nombre": "Gemma 3n E4B", "provider" : "Gemini"}
+    {"id": "gemma-3n-e4b-it", "nombre": "Gemma 3n E4B", "provider" : "Gemini"},
+    {"id": "arcee-ai/AFM-4.5B-Preview", "nombre": "Arcee AI AFM-4.5B", "provider" : "Together"},
+    {"id": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free", "nombre": "Llama 3.3 70B Instruct Turbo", "provider" : "Together"},
+    {"id": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free", "nombre": "DeepSeek R1 Distilled Llama 70B", "provider" : "Together"},
+    {"id": "lgai/exaone-3-5-32b-instruct", "nombre": "EXAONE 3.5 32B Instruct", "provider" : "Together"},
+    {"id": "lgai/exaone-deep-32b", "nombre": "EXAONE Deep 32B", "provider" : "Together"}
 ]
