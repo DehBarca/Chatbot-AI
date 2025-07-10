@@ -2,3 +2,4 @@
 env/*
 archivos
 __pycache__
+tests
