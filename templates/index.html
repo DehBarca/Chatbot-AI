@@ -24,20 +24,32 @@
       <div class="chat-header">
         <h1>Chatbot</h1>
       </div>
+      <!-- Message bubbles -->
       <div class="chat-messages" id="messages"></div>
+      <!-- Input bar -->
       <div class="chat-input">
-        <select id="modelSelect" class="form-select"></select>
-        <select id="fileSelect" class="form-select"></select>
-        <button
-          type="button"
-          class="btn btn-outline-primary upload-btn"
-          data-bs-toggle="modal"
-          data-bs-target="#Archivos"
-        >
-          <i class="fa fa-upload" aria-hidden="true"></i>
-        </button>
-        <input id="userInput" type="text" placeholder="Type your message..." />
-        <button class="send-btn" onclick="sendMessage()">Send</button>
+        <!-- Top part -->
+        <div class="input-top">
+          <input
+            id="userInput"
+            type="text"
+            placeholder="Type your message..."
+          />
+        </div>
+        <!-- Bottom part -->
+        <div class="input-bottom">
+          <button
+            type="button"
+            class="btn btn-outline-primary upload-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#Archivos"
+          >
+            <i class="fa fa-upload" aria-hidden="true"></i>
+          </button>
+          <select id="fileSelect" class="form-select archive"></select>
+          <select id="modelSelect" class="form-select model"></select>
+          <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
       </div>
     </div>
 
