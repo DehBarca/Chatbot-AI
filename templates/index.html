@@ -44,11 +44,16 @@
             data-bs-toggle="modal"
             data-bs-target="#Archivos"
           >
-            <i class="fa fa-upload" aria-hidden="true"></i>
+            <img src="{{ url_for('static', filename='icons/clip.svg') }}"
+            alt="Send" width="30" height="30"" alt="Upload" />
           </button>
           <select id="fileSelect" class="form-select archive"></select>
+          <div class="bottom-middle"></div>
           <select id="modelSelect" class="form-select model"></select>
-          <button class="send-btn" onclick="sendMessage()">Send</button>
+          <button class="send-btn" onclick="sendMessage()">
+            <img src="{{ url_for('static', filename='icons/send.svg') }}"
+            alt="Send" width="30" height="30"" alt="Send" />
+          </button>
         </div>
       </div>
     </div>
@@ -173,7 +178,7 @@
         const text = input.value.trim();
         if (!text) return;
 
-        addMessage("You", text, "user");
+        addMessage("🕵🏻‍♀️ You", text, "user");
         input.value = "";
 
         const loadingDiv = addLoadingMessage();
@@ -207,10 +212,10 @@
           const data = await res.json();
           loadingDiv.remove();
 
-          addMessage(modelo, data.response, "bot");
+          addMessage("🤖 " + modelo, data.response, "bot");
         } catch (err) {
           loadingDiv.remove();
-          addMessage(modelo, "Oops! Something went wrong.", "bot");
+          addMessage("🤖 " + modelo, "Oops! Something went wrong.", "bot");
         }
       }
 

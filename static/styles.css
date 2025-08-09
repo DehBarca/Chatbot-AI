@@ -36,7 +36,7 @@ body {
 .chat-messages {
   flex: 1;
   padding: 30px;
-  max-height: 500px;
+  max-height: 78vh;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
@@ -78,6 +78,10 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
+}
+
+.spinner-border {
+  color: #8000FF !important;
 }
 
 .sender {
@@ -124,6 +128,11 @@ body {
   margin-top: 0;
 }
 
+.chat-input .bottom-middle{
+  display: flex;
+  flex-grow: 1;
+}
+
 .chat-input input {
   flex: 1;
   padding: 12px;
@@ -144,24 +153,22 @@ body {
 }
 
 .chat-input .send-btn  {
-  margin-left: 10px;
-  padding: 12px 24px;
-  background: #3498db;
-  color: white;
+  margin-left: 25px;
+  background-color: transparent;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
-  float: right;
+  width: fit-content;
+  margin-bottom: auto;
 }
 
 .chat-input .upload-btn {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 25px;
   border: 1px solid #8000FF;
   border-radius: 20px;
   transition: background 0.3s ease;
+  width: fit-content;
+  padding: 0px;
 }
 
 .chat-input button:hover {
@@ -170,10 +177,15 @@ body {
 }
 
 .chat-input select {
+  display: inline-block;
   background-color: transparent;
-  width: fit-content;
-  margin-right: 10px;
-  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: auto;
+  padding: 1px;
+  padding-left: 10px;
+  min-width: 60px; 
+  max-width: 160px;
   border: 1px solid #8000FF;
   border-radius: 25px;
   color: white;
