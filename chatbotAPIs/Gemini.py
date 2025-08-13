@@ -2,21 +2,27 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.memory import ConversationBufferMemory
-from langchain_core.globals import set_llm_cache
-from langchain_core.caches import InMemoryCache
-
-
 
 load_dotenv()
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 os.environ["GOOGLE_API_KEY"] = GEMINI_KEY
 
-set_llm_cache(InMemoryCache())
-memory = ConversationBufferMemory(return_messages=True)
+if not GEMINI_KEY:
+    raise ValueError("GEMINI_API_KEY not found in .env file.")
 
-def get_Gemini(model_id, message):
-    llm = ChatGoogleGenerativeAI(model = model_id, cache = True)
-    history = memory.load_memory_variables({}).get("history", "")
-    response = llm.invoke(f"{history}\nUser: {message}")
-    memory.save_context({"input": message}, {"output": response.content})
-    return response.content
+def get_Gemini(model_id, message, history):
+    llm = ChatGoogleGenerativeAI(model = model_id)
+    
+    # ultimo_humano = next(
+    #     (msg for msg in reversed(history) if type(msg).__name__ == "HumanMessage"),
+    #     None
+    # )
+    # if ultimo_humano and ultimo_humano.content == message:
+    #     print(ultimo_humano.content)
+    # else:
+    #     print("No hay mensajes humanos en la historia.") 
+    reply = llm.invoke(f"Context: el siguiente contenido es el historial de la conversación:{history} puedes usarlo para responder al usuario\nUser: {message}")
+    
+    return reply.content
+
+

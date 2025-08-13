@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from chatbotAPIs.OpenRouter import get_OpenRouter
 from chatbotAPIs.Gemini import get_Gemini
 from chatbotAPIs.Together import get_Together
+from chatbotAPIs.OtherFuncs import make_history
 
 load_dotenv()
 Host = os.getenv("HOST", "0.0.0.0")
@@ -61,17 +62,22 @@ def chat():
         if not model_id:
             return jsonify({"error": "El modelo no es válido"}), 400
         
+        # Crear un historial vacío
+        history = make_history("","")
+                
         # Verificar si el modelo pertenece a Openrouter o Gemini
         match provider:
             case "openrouter": 
-                reply = get_OpenRouter(model_id, message) # Proceso para modelos de Openrouter
+                reply = get_OpenRouter(model_id, message, history) # Proceso para modelos de Openrouter
             case "gemini":
-                reply = get_Gemini(model_id, message) # Proceso para modelos de Gemini
+                reply = get_Gemini(model_id, message, history) # Proceso para modelos de Gemini
             case "together":
-                reply = get_Together(model_id, message)
+                reply = get_Together(model_id, message, history)
             case _:
                 return jsonify({"error": "Model not found"}), 404
-                
+        
+        # Guardar en memoria DESPUÉS de obtener la respuesta
+        make_history(message, reply)
         return jsonify({"response": Markdown().convert(reply)})
 
     except Exception as e:
