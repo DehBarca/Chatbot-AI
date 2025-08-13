@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain.memory import ConversationBufferMemory
 
 load_dotenv()
 OPENROUTER_KEY= os.getenv("OPENROUTER_API_KEY")

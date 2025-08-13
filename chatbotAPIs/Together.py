@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 from langchain_together import ChatTogether
-from langchain.memory import ConversationBufferMemory
 
 load_dotenv()
 TOGETHER_KEY= os.getenv("TOGETHER_API_KEY")
