@@ -62,7 +62,6 @@ def chat():
         if not model_id:
             return jsonify({"error": "El modelo no es válido"}), 400
         
-        # Crear un historial vacío
         history = make_history("","")
                 
         # Verificar si el modelo pertenece a Openrouter o Gemini
@@ -70,13 +69,12 @@ def chat():
             case "openrouter": 
                 reply = get_OpenRouter(model_id, message, history) # Proceso para modelos de Openrouter
             case "gemini":
-                reply = get_Gemini(model_id, message, history) # Proceso para modelos de Gemini
+                reply = get_Gemini(model_id, message, history, archivo) # Proceso para modelos de Gemini
             case "together":
                 reply = get_Together(model_id, message, history)
             case _:
                 return jsonify({"error": "Model not found"}), 404
         
-        # Guardar en memoria DESPUÉS de obtener la respuesta
         make_history(message, reply)
         return jsonify({"response": Markdown().convert(reply)})
 
