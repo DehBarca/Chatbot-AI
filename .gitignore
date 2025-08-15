@@ -3,3 +3,4 @@ env/*
 archivos
 __pycache__
 tests
+app.log

@@ -1,6 +1,11 @@
 import os
 from dotenv import load_dotenv
-from langchain.memory import ConversationBufferMemory
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_openai import OpenAIEmbeddings
 
 
@@ -11,19 +16,6 @@ os.environ["OPENAI_API_KEY"] = OPENAI_KEY
 if not OPENAI_KEY:
     raise ValueError("OPENAI_API_KEY not found in .env file.")
 
-memory = ConversationBufferMemory(return_messages=True)
-
-def make_history(input, output):
-    history = memory.load_memory_variables({}).get("history", "")
-    memory.save_context({"input": input}, {"output": output})
-    return history
-
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
-from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
 
 system_prompt = (
     "You are an assistant for question-answering tasks. "
