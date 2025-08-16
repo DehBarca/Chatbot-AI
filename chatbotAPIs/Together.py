@@ -14,7 +14,7 @@ if not TOGETHER_KEY:
     raise ValueError("TOGETHER_API_KEY not found in .env file.")
 
 
-def get_Together(model_id, message, history, archivo=""):
+def get_Together(model_id: str, message: str, history: str, archivo: str="") -> str:
     """
     Get response from Together AI model with comprehensive error handling
     

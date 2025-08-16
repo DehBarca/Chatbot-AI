@@ -14,7 +14,7 @@ if not OPENROUTER_KEY:
     raise ValueError("OPENROUTER_API_KEY not found in .env file.")
 
 
-def get_OpenRouter(model_id, message, history, archivo=""):
+def get_OpenRouter(model_id: str, message: str, history: str, archivo: str="") -> str:
     """
     Get response from OpenRouter AI model with comprehensive error handling
     

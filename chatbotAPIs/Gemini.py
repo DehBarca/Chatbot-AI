@@ -15,7 +15,7 @@ if not GEMINI_KEY:
     raise ValueError("GEMINI_API_KEY not found in .env file.")
 
 
-def get_Gemini(model_id, message, history, archivo=""):
+def get_Gemini(model_id: str, message: str, history: str, archivo: str="") -> str:
     """
     Get response from Gemini AI model with comprehensive error handling
     

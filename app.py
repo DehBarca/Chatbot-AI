@@ -184,7 +184,7 @@ def chat():
         # Get history
         try:
             logger.debug("Retrieving conversation history")
-            history = make_history("","")
+            history = make_history()
             logger.debug("Successfully retrieved history")
         except Exception as e:
             logger.error(f"Could not get history: {e}")
